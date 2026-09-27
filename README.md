@@ -43,3 +43,11 @@ pip install numpy pandas scipy scikit-image scikit-learn matplotlib pillow openc
 Example image filename: `plant1_01_06_2023_15_balcony.jpg` (`plant`, day, month, year, acquisition hour, camera/location).
 
 This repository documents the **leaf-counting component** of the study. The separate surface-area and ARIMA/Bayesian forecasting analyses are not implemented in the five notebooks listed above.
+
+## Citation
+If you use this repository, please cite:
+S. Gupta, G. Manzi, R. Oberti, M. Torrente.
+Automated phenotyping and prediction models for plant growth: A data-driven approach
+
+## Contact
+For questions regarding the code or data, please contact the authors through the corresponding contact information provided in the paper.
