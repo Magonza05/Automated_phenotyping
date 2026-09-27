@@ -1,33 +1,29 @@
 # Automated phenotyping and prediction models for plant growth
 
-Code accompanying the lettuce leaf-counting component of *Automated phenotyping and prediction models for plant growth: A data-driven approach*.
+Image-processing and leaf-counting code accompanying *Automated phenotyping and prediction models for plant growth: A data-driven approach*.
 
-## Repository contents
+## Code
 
-| Notebook | Purpose |
-| --- | --- |
-| [`Unet -Background Removal + both workflows.ipynb`](notebooks/historical/Unet%20-Background%20Removal%20%2B%20both%20workflows.ipynb) | Background removal with `rembg` and batch leaf counting for Balcony images. |
-| [`Plant Workflow_Region Growing Approach.ipynb`](notebooks/historical/Plant%20Workflow_Region%20Growing%20Approach.ipynb) | Batch leaf counting for Babyroom images using both methods. |
-| [`Performance Evaluation Method 1 and Method 2 .ipynb`](notebooks/historical/Performance%20Evaluation%20Method%201%20and%20Method%202%20.ipynb) | Comparison of estimated counts with manually recorded counts. |
-| [`Leaf Count Method 2 accuracy.ipynb`](notebooks/historical/Leaf%20Count%20Method%202%20accuracy.ipynb) | Additional evaluation of the second counting method. |
+[`Unet -Background Removal + both workflows.ipynb`](Unet%20-%20Background%20Removal%20%2B%20both%20workflows.ipynb) is the main Google Colab notebook. It contains background removal for cropped Balcony and Babyroom plant images and the two batch leaf-counting methods evaluated in the image-analysis experiment:
 
-## Leaf-counting methods
+- **Method 1 (edge-based):** Gaussian smoothing, morphological reconstruction, Canny edge detection, dilation/erosion and connected-component counting.
+- **Method 2 (marker-based):** Gaussian smoothing, RGB-channel gradient calculation, Otsu thresholding and local-maxima marker counting.
 
-- **Method 1 — Canny:** Gaussian smoothing, morphological reconstruction, Canny edge detection, dilation/erosion and connected-component counting.
-- **Method 2 — marker detection:** Gaussian smoothing, combined RGB Sobel gradients, an Otsu binary mask and local-maxima marker counting.
+The notebook uses `rembg` for background removal. Its filename does not indicate that a U-Net model was trained in this study.
 
-These are historical implementations, shared with their original filenames. They are not a one-click reproduction; verify the exported counts against the reference data.
+## Running in Google Colab
 
-## Running the notebooks
+1. Open the notebook in Colab and mount Google Drive. Install the dependencies specified in the notebook (`rembg`, `scikit-image`, `scipy`, `Pillow` and supporting Python packages).
+2. Set the input/output folders in the **Balcony** or **Babyroom Images Background Removal** section to the corresponding cropped images. Run the relevant background-removal cells.
+3. Set `image_folder_path` in **First Approach – Edge + Watershed** to the background-removed image folder. Run the complete batch-counting cell that writes `leaf_counts_balcony.csv`. Despite the historical heading, this particular batch cell counts connected components; it does not execute watershed.
+4. Set `folder_path` in **2nd Approach – Gaussian Filter + Sobel + Markers + Otsu** to the same image folder. Run the batch cell that writes `leaf_count_results_markers_balcony.csv`. Change output filenames if running on Babyroom images.
 
-1. Open a notebook in **Google Colab**, mount Google Drive and update its input/output paths to your local copies of the images and reference files.
-2. Run the background-removal cells, followed by the relevant Balcony or Babyroom counting cells. The counting notebooks export image-level leaf-count estimates to CSV.
-3. Open the evaluation notebooks with the prediction CSVs and matching manual-count workbooks to inspect the count comparisons.
+The notebook includes alternative experimental cells; the steps above identify the batch-processing path. Its Babyroom background-removal cell currently selects filenames beginning `plant5` or `plant6`; adjust that condition when processing other plants.
 
-The notebooks use Python packages including `numpy`, `pandas`, `scipy`, `scikit-image`, `opencv-python`, `Pillow`, `rembg`, `matplotlib`, `openpyxl` and `reportlab`. Some cells have notebook-specific installation commands.
+## Data and outputs
 
-## Data
+**Image dataset and manual reference counts:** [ADD PUBLIC DATASET URL BEFORE RELEASE]
 
-**Plant photographs and manual reference counts:** [insert public dataset link before release].
+Input filenames contain plant ID, date, acquisition time and camera/location. The two batch methods export per-image estimated counts to CSV for comparison with manual reference counts.
 
-The original notebooks use Google Drive paths, so those paths must be changed to the downloaded dataset location. This release covers the image-processing and leaf-counting component; the separate surface-area and growth-forecasting analysis is not included in these notebooks.
+This notebook covers background removal **from already cropped plant images** and leaf-count estimation. The earlier raw-image cropping stage, and the separate surface-area and forecasting analyses, are not included here.
