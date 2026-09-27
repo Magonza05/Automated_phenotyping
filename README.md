@@ -28,7 +28,7 @@ Automated_phenotyping/
 └── archive/
     └── babyroom_leaf_count_workflow.ipynb
 
-Main analysis workflow
+# Main analysis workflow
 The main notebook is:
 notebooks/01_leaf_count_pipeline.ipynb
 It contains the preprocessing and leaf-counting workflow used for the plant images.
